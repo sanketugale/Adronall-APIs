@@ -8,7 +8,7 @@ from django.template import loader
 from django_celery_beat.models import PeriodicTask
 # Task for sending email to verify register user account
 @shared_task(bind=True)
-def sendEmailTask(self, email):
+def sendEmailTask(self,email):
     print("SEND EMAIL CALLED..........")
     subject="AdronAll User Account verification."
     otp=random.randint(100000,999999)

@@ -87,24 +87,25 @@ def callInvalidateOTP(email):
 
 class RegisterUser(APIView):
     def post(self, request):
-        print(make_password("Sanket@123"))
+        # print(make_password("Sanket@123"))
         print("POST METHOD CALLED")
         serializer=userRegisterSerializer(data=request.data)
         print(serializer)
         if not serializer.is_valid():
             email = request.data.get('email')
-            print(email)
+            # print(email)
             try:
                     user=User.objects.get(email=request.data['email'])
-                    print(user)
+                    # print(user)
                     if user.otp_validity == False and user.verification_status == "pending":
                         try:
                             email=user.email
-                            print(email)
+                            # print(email)
                             sendEmailTask.delay(email)
+                            # 
                             user.otp_validity=True
                             refresh = RefreshToken.for_user(user)
-                            print(refresh)
+                            # print(refresh)
                             user.save()
 
                         except:
@@ -138,10 +139,11 @@ class RegisterUser(APIView):
                     )        
         else:
             try:
-                print("ELSE")
+                # print("ELSE")
                 email=serializer.validated_data['email']
-                print(email)
+                # print(email)
                 sendEmailTask.delay(email)
+                # 
             except Exception as e:
                 return Response(
                     {
